@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "279946626334",
+    "project_id": "prueba-tecnica-de2cb",
+    "storage_bucket": "prueba-tecnica-de2cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279946626334:android:2cdaadb2c30d0abf79f50f",
+        "android_client_info": {
+          "package_name": "com.example.pruebatecnica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279946626334-4bcdt94ut52trlav8dchms4p7kf3g69a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7I0bfzmB9LN2nlMDaQsKNy0U6U2i91HQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279946626334-4bcdt94ut52trlav8dchms4p7kf3g69a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
