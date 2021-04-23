@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 
 class ListProduts extends StatefulWidget {
-  ListProduts({Key key}) : super(key: key);
+  final data;
+  ListProduts({Key key, @required this.data}) : super(key: key);
 
   @override
   _ListProdutsState createState() => _ListProdutsState();
@@ -10,6 +12,10 @@ class ListProduts extends StatefulWidget {
 class _ListProdutsState extends State<ListProduts> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Center(
+        child: Text('Tenemos data'),
+      ),
+    );
   }
 }

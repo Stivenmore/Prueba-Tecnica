@@ -12,10 +12,10 @@ class CubitCubit extends Cubit<CubitState> {
       : _repository = repository ?? Repository(FirebaseFirestore.instance),
         super(CubitInitial());
 
-  Future getdata() async {
+  Future getdata() async{
     emit(CubitLoading());
     try {
-      final data = _repository.getData();
+      final data = await _repository.getData();
       emit(CubitLoaded(data));
     } catch (e) {
       print(e.toString());

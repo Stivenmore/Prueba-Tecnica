@@ -6,11 +6,11 @@ import 'package:injector/injector.dart';
 import 'package:pruebatecnica/data/repositories/repositories.dart';
 import 'package:pruebatecnica/dependency/register.dart';
 import 'package:pruebatecnica/domain/cubit/cubit_cubit.dart';
-import 'package:pruebatecnica/ui/Pages/ListProducts/ListProducts.dart';
+import 'package:pruebatecnica/ui/Pages/Home/Home.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   Register().regist();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
 }
@@ -21,10 +21,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Prueba Tecnica',
-      theme: ThemeData(),
+      theme: ThemeData(
+        accentColor: Colors.white
+      ),
       home: BlocProvider.value(
         value: Injector.appInstance.get<CubitCubit>(),
-        child: ListProduts(),
+        child: Home()
       ),
     );
   }
