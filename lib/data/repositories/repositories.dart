@@ -16,12 +16,11 @@ class Repository implements Services {
       final resp = await _firestore.collection('Products').get();
       doc = resp.docs;
       list = doc.map((DocumentSnapshot documentSnapshot) {
-        return documentSnapshot.data();
+        return (documentSnapshot.data());
       }).toList();
       if (resp.docs.isEmpty == false) {
-        List<Product> product = (list as Iterable).map((e) 
-         => Product.fromsnapshot(e)
-        ).toList();
+        List<Product> product =
+            (list as Iterable).map((e) => Product.fromsnapshot(e)).toList();
         return ServiceResult(data: product);
       } else {
         return ServiceResult(status: false, message: 'No tenemos data');

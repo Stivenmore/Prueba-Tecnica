@@ -57,7 +57,11 @@ class _ListProdutsState extends State<ListProduts> {
                                 scrollDirection: Axis.vertical,
                                 children: state.product
                                     .map((e) => Padding(
-                                          padding: EdgeInsets.only(top: (e == state.product.first? 0 : 10), left: 10),
+                                          padding: EdgeInsets.only(
+                                              top: (e == state.product.first
+                                                  ? 0
+                                                  : 10),
+                                              left: 10),
                                           child: Column(
                                             children: [
                                               ProductCard(
@@ -91,7 +95,7 @@ class _ListProdutsState extends State<ListProduts> {
   }
 }
 
-class DetailProduct extends StatelessWidget {
+class DetailProduct extends StatefulWidget {
   final Size size;
   final Product product;
   const DetailProduct({
@@ -101,8 +105,16 @@ class DetailProduct extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _DetailProductState createState() => _DetailProductState();
+}
+
+class _DetailProductState extends State<DetailProduct> {
+  Map<String, bool> checkedservices = {};
+  bool isShopping = false;
+  @override
   Widget build(BuildContext context) {
     return Container(
+      width: widget.size.width,
       child: Column(
         children: [
           Table(
@@ -110,7 +122,7 @@ class DetailProduct extends StatelessWidget {
               TableRow(children: [
                 Row(
                   children: [
-                    Text(product.nameproduct,
+                    Text(widget.product.nameproduct,
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w600,
@@ -122,34 +134,56 @@ class DetailProduct extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      'Price ' + product.price.toString() + '€' + '  ',
+                      'Price ' + widget.product.price.toString() + '€' + '  ',
                       style: TextStyle(
                           fontSize: 16,
                           color: Colors.grey[600],
                           fontWeight: FontWeight.w700),
                     ),
                     Text(
-                        (product.price -
-                                (product.price * (product.discout / 100)))
+                        (widget.product.price -
+                                (widget.product.price *
+                                    (widget.product.discout / 100)))
                             .toString(),
                         style: TextStyle(
                           fontSize: 20,
                           color: Color(0xffE97510),
                           fontWeight: FontWeight.w700,
-                        ))
+                        )),
+                    Expanded(
+                        flex: 1,
+                        child: IconButton(
+                            icon: widget.product.isChecked == false
+                                ? Icon(
+                                    Icons.shopping_bag,
+                                    color: Colors.grey,
+                                    size: 34,
+                                  )
+                                : Icon(Icons.shopping_bag,
+                                    color: Color(0xffE97510),
+                                    size: 32,),
+                            onPressed: () {
+                              setState(() {
+                                widget.product.isChecked = !widget.product.isChecked;
+                              });
+                            }))
                   ],
                 )
               ]),
-              TableRow(
-                children: [
-                  Row(
-                    children: [
-                      Text('Discout of ', style: TextStyle(color: Colors.grey),),
-                      Text(product.discout.toString()+'%', style: TextStyle(fontWeight: FontWeight.w700),)
-                    ],
-                  )
-                ]
-              )
+              TableRow(children: [
+                Row(
+                  children: [
+                    Text(
+                      'Discout of ',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Text(
+                      widget.product.discout.toString() + '%',
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                  ],
+                )
+              ])
             ],
           ),
         ],
