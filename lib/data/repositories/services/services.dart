@@ -9,7 +9,7 @@ class ServiceResult<T> {
   @required
   bool status;
 
-  @required T data;
+  T data;
   String message;
 
   ServiceResult({this.data, this.message, this.status});

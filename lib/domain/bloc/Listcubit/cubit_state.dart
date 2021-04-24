@@ -15,6 +15,7 @@ class CubitLoaded extends CubitState {
   final List<Product> product;
 
   CubitLoaded({this.product});
+  
   @override
   List<Object> get props => [product];
 }

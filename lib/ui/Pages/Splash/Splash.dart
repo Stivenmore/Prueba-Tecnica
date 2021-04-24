@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pruebatecnica/domain/bloc/Listcubit/cubit_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,13 +11,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final cubit = CubitCubit();
+
+ 
 
   @override
   void initState() {
+    final cubit = context.read<CubitCubit>();
     super.initState();
-    context.read<CubitCubit>().getdata().whenComplete(() {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> ListProduts()));
+    cubit.getdata().whenComplete(() {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => ListProduts()));
     });
   }
 

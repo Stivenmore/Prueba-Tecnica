@@ -1,10 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Product extends Equatable {
   final String description;
   final String nameproduct;
-  final String discout;
+  final int discout;
   final String urlimage;
   final int price;
 
@@ -16,27 +15,17 @@ class Product extends Equatable {
       this.price});
 
   factory Product.fromsnapshot(
-      List<QueryDocumentSnapshot> snapshot, int index) {
-    return Product(
-        description: snapshot[index]['Description'],
-        nameproduct: snapshot[index]['Nameproduct'],
-        discout: snapshot[index]['Discout'],
-        urlimage: snapshot[index]['Urlimage'],
-        price: snapshot[index]['price']);
-  }
+      Map<String, dynamic> snapshot) 
+    => Product(
+        description: snapshot['Description'],
+        nameproduct: snapshot['Nameproduct'],
+        discout: snapshot['Discout'] as int,
+        urlimage: snapshot['Urlimage'],
+        price: snapshot['Price'] as int
+        );
+  
 
   @override
   List<Object> get props =>
       [description, nameproduct, discout, urlimage, price];
-}
-
-class Document extends Equatable {
-  final String id;
-
-  Document({this.id});
-
-  factory Document.map(Map<String, dynamic> map) => Document(id: map['id']);
-
-  @override
-  List<Object> get props => [id];
 }

@@ -3,24 +3,29 @@ import 'package:pruebatecnica/data/repositories/services/services.dart';
 import 'package:pruebatecnica/domain/entities/product.dart';
 
 class Repository implements Services {
-  FirebaseFirestore _firestore;
+  FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Repository(this._firestore);
 
   Future<ServiceResult<List<Product>>> getDatafromFirebase() async {
+    List<DocumentSnapshot> doc;
+    var list;
 
     try {
-      int index;
       print('retorno valido');
-      final result = await _firestore.collection('Products').get();
-      if (result.docs.length != 0) {
-        List<Product> product = (result as Iterable)
-            .map((e) => Product.fromsnapshot(result.docs, index))
-            .toList();
+      final resp = await _firestore.collection('Products').get();
+      doc = resp.docs;
+      list = doc.map((DocumentSnapshot documentSnapshot) {
+        return documentSnapshot.data();
+      }).toList();
+      if (resp.docs.isEmpty == false) {
+        List<Product> product = (list as Iterable).map((e) 
+         => Product.fromsnapshot(e)
+        ).toList();
         return ServiceResult(data: product);
-      } 
-      else {}
-      return ServiceResult(status: false, message: 'No tenemos data');
+      } else {
+        return ServiceResult(status: false, message: 'No tenemos data');
+      }
     } catch (e) {
       return ServiceResult(status: false, message: e.toString());
     }

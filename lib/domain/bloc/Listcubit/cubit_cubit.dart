@@ -15,7 +15,7 @@ class CubitCubit extends Cubit<CubitState> {
   CubitCubit({Repository repository})
       : _repository = repository ?? Repository(FirebaseFirestore.instance),
         super(CubitLoading());
-  final List<Product> product = [];
+      final List<Product> product = [];
 
   Future<void> getdata() async {
     ServiceResult<List<Product>> result =
