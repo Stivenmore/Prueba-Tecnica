@@ -1,17 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pruebatecnica/data/repositories/services/services.dart';
+import 'package:pruebatecnica/domain/entities/product.dart';
 
-class Repository {
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+class Repository implements Services {
+  FirebaseFirestore _firestore;
 
   Repository(this._firestore);
 
-  Future getData() async {
+  Future<ServiceResult<List<Product>>> getDatafromFirebase() async {
+
     try {
+      int index;
       print('retorno valido');
-      return await _firestore.collection('Products').get();
+      final result = await _firestore.collection('Products').get();
+      if (result.docs.length != 0) {
+        List<Product> product = (result as Iterable)
+            .map((e) => Product.fromsnapshot(result.docs, index))
+            .toList();
+        return ServiceResult(data: product);
+      } 
+      else {}
+      return ServiceResult(status: false, message: 'No tenemos data');
     } catch (e) {
-      print('retorno no valido');
-      return null;
+      return ServiceResult(status: false, message: e.toString());
     }
   }
+
+  @override
+  void dispose() {}
+
+  @override
+  void init() {}
 }
