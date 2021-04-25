@@ -40,54 +40,11 @@ class _ShoppingCardState extends State<ShoppingCard> {
                   );
                   break;
                 case ShoppingLoaded:
-                  return ListView(
-                    children: [
-                      SizedBox(
-                        height: size.height * 0.02,
-                      ),
-                      Text(
-                        'Cart',
-                        style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w700,
-                            color: Color(0xffE97510),
-                            fontFamily: 'Oswald'),
-                        textAlign: TextAlign.center,
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      SizedBox(
-                        height: size.height * 0.88,
-                        child: BlocBuilder<ShoppingCubit, ShoppingState>(
-                            builder: (context, state) => (state
-                                    is ShoppingLoaded)
-                                ? ListView(
-                                    scrollDirection: Axis.vertical,
-                                    children: state.shopping
-                                        .map((e) => Padding(
-                                              padding: EdgeInsets.only(
-                                                top: (e == state.shopping.first
-                                                    ? 0
-                                                    : 10),
-                                              ),
-                                              child: Modelointerno(
-                                                shopping: e,
-                                                size: size,
-                                              ),
-                                            ))
-                                        .toList(),
-                                  )
-                                : Center(
-                                    child: Text('Sin Productos'),
-                                  )),
-                      )
-                    ],
-                  );
+                  return CartLoaded(size);
                   break;
                 case ShoppingError:
                   return Center(
-                    child: Text('Estado Error'),
+                    child: Text('Lo sentimos, tenemos un error'),
                   );
                   break;
                 case ShoppingSuccess:
@@ -103,6 +60,53 @@ class _ShoppingCardState extends State<ShoppingCard> {
             },
           )),
     );
+  }
+
+  ListView CartLoaded(Size size) {
+    return ListView(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.02,
+                    ),
+                    Text(
+                      'Cart',
+                      style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xffE97510),
+                          fontFamily: 'Oswald'),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
+                    SizedBox(
+                      height: size.height * 0.88,
+                      child: BlocBuilder<ShoppingCubit, ShoppingState>(
+                          builder: (context, state) => (state
+                                  is ShoppingLoaded)
+                              ? ListView(
+                                  scrollDirection: Axis.vertical,
+                                  children: state.shopping
+                                      .map((e) => Padding(
+                                            padding: EdgeInsets.only(
+                                              top: (e == state.shopping.first
+                                                  ? 0
+                                                  : 10),
+                                            ),
+                                            child: Modelointerno(
+                                              shopping: e,
+                                              size: size,
+                                            ),
+                                          ))
+                                      .toList(),
+                                )
+                              : Center(
+                                  child: Text('Sin Productos'),
+                                )),
+                    )
+                  ],
+                );
   }
 }
 

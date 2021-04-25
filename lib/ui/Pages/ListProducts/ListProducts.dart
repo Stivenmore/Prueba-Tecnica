@@ -26,72 +26,16 @@ class _ListProdutsState extends State<ListProduts> {
           switch (state.runtimeType) {
             case CubitLoading:
               return Center(
-                child: Text('Cubit Loading'),
+                child: Text('Cargando...'),
               );
               break;
             case CubitError:
               return Center(
-                child: Text('Cubit Error'),
+                child: Text('Por favor intente mas tarde'),
               );
               break;
             case CubitLoaded:
-              return ListView(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                          icon: Icon(Icons.shopping_bag_outlined),
-                          onPressed: () {
-                            context
-                                .read<ShoppingCubit>()
-                                .getdatashopping()
-                                .whenComplete(() {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ShoppingCard()));
-                                });
-                          })
-                    ],
-                  ),
-                  Center(
-                      child: Text('Training',
-                          style: TextStyle(
-                            fontSize: 32,
-                            fontWeight: FontWeight.w700,
-                          ))),
-                  SizedBox(
-                    height: size.height * 0.83,
-                    child: BlocBuilder<CubitCubit, CubitState>(
-                        builder: (context, state) => (state is CubitLoaded)
-                            ? ListView(
-                                scrollDirection: Axis.vertical,
-                                children: state.product
-                                    .map((e) => Padding(
-                                          padding: EdgeInsets.only(
-                                              top: (e == state.product.first
-                                                  ? 0
-                                                  : 10),
-                                              left: 10),
-                                          child: Column(
-                                            children: [
-                                              ProductCard(
-                                                product: e,
-                                                size: size,
-                                              ),
-                                              DetailProduct(
-                                                product: e,
-                                                size: size,
-                                              )
-                                            ],
-                                          ),
-                                        ))
-                                    .toList())
-                            : Center(
-                                child: Text('No tenemos productos',
-                                    style: TextStyle(fontSize: 18)),
-                              )),
-                  )
-                ],
-              );
+              return Loaded(context, size);
               break;
             default:
               return Center(
@@ -101,6 +45,67 @@ class _ListProdutsState extends State<ListProduts> {
         },
       ),
     );
+  }
+
+  // ignore: non_constant_identifier_names
+  ListView Loaded(BuildContext context, Size size) {
+    return ListView(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    IconButton(
+                        icon: Icon(Icons.shopping_bag_outlined),
+                        onPressed: () {
+                          context
+                              .read<ShoppingCubit>()
+                              .getdatashopping()
+                              .whenComplete(() {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ShoppingCard()));
+                              });
+                        })
+                  ],
+                ),
+                Center(
+                    child: Text('Training',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w700,
+                        ))),
+                SizedBox(
+                  height: size.height * 0.83,
+                  child: BlocBuilder<CubitCubit, CubitState>(
+                      builder: (context, state) => (state is CubitLoaded)
+                          ? ListView(
+                              scrollDirection: Axis.vertical,
+                              children: state.product
+                                  .map((e) => Padding(
+                                        padding: EdgeInsets.only(
+                                            top: (e == state.product.first
+                                                ? 0
+                                                : 10),
+                                            left: 10),
+                                        child: Column(
+                                          children: [
+                                            ProductCard(
+                                              product: e,
+                                              size: size,
+                                            ),
+                                            DetailProduct(
+                                              product: e,
+                                              size: size,
+                                            )
+                                          ],
+                                        ),
+                                      ))
+                                  .toList())
+                          : Center(
+                              child: Text('No tenemos productos',
+                                  style: TextStyle(fontSize: 18)),
+                            )),
+                )
+              ],
+            );
   }
 }
 
