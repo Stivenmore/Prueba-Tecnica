@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pruebatecnica/domain/bloc/Listcubit/cubit_cubit.dart';
+import 'package:pruebatecnica/domain/bloc/Shopping/cubit/shopping_cubit.dart';
 import 'package:pruebatecnica/domain/entities/product.dart';
+import 'package:pruebatecnica/ui/Pages/Shopping/Shopping.dart';
 
 class ListProduts extends StatefulWidget {
   ListProduts({
@@ -40,7 +42,14 @@ class _ListProdutsState extends State<ListProduts> {
                     children: [
                       IconButton(
                           icon: Icon(Icons.shopping_bag_outlined),
-                          onPressed: () {})
+                          onPressed: () {
+                            context
+                                .read<ShoppingCubit>()
+                                .getdatashopping()
+                                .whenComplete(() {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ShoppingCard()));
+                                });
+                          })
                     ],
                   ),
                   Center(
@@ -109,10 +118,9 @@ class DetailProduct extends StatefulWidget {
 }
 
 class _DetailProductState extends State<DetailProduct> {
-  Map<String, bool> checkedservices = {};
-  bool isShopping = false;
   @override
   Widget build(BuildContext context) {
+    final cubit = context.read<ShoppingCubit>();
     return Container(
       width: widget.size.width,
       child: Column(
@@ -153,19 +161,14 @@ class _DetailProductState extends State<DetailProduct> {
                     Expanded(
                         flex: 1,
                         child: IconButton(
-                            icon: widget.product.isChecked == false
-                                ? Icon(
-                                    Icons.shopping_bag,
-                                    color: Colors.grey,
-                                    size: 34,
-                                  )
-                                : Icon(Icons.shopping_bag,
-                                    color: Color(0xffE97510),
-                                    size: 32,),
-                            onPressed: () {
-                              setState(() {
-                                widget.product.isChecked = !widget.product.isChecked;
-                              });
+                            icon: Icon(
+                              Icons.shopping_bag,
+                              color: Color(0xffE97510),
+                              size: 32,
+                            ),
+                            onPressed: () async {
+                              await cubit.addShopping(widget.product);
+                              cubit.getdatashopping();
                             }))
                   ],
                 )

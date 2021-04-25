@@ -1,30 +1,29 @@
-import 'package:pruebatecnica/domain/entities/product.dart';
+
+import 'package:equatable/equatable.dart';
 
 // ignore: must_be_immutable
-class ShoppingCard extends Product {
-  final String description;
+  class  Shopping extends Equatable{
   final String nameproduct;
   final int discout;
   final String urlimage;
   final int price;
-  final int canti;
+  int canti;
 
-  ShoppingCard(Product product,{
-      this.description,
+  Shopping({
       this.nameproduct,
       this.discout,
       this.urlimage,
       this.price,
       this.canti})
-      : super(
-            description: product.description,
-            nameproduct: product.nameproduct,
-            discout: product.discout,
-            urlimage: product.urlimage,
-            price: product.price,
-            isChecked: product.isChecked);
+      : super();
 
+factory Shopping.fromsnapshot(Map<String, dynamic> snapshot) => Shopping(
+      nameproduct: snapshot['Nameproduct'],
+      discout: snapshot['Discout'] as int,
+      urlimage: snapshot['Urlimage'],
+      price: snapshot['Price'] as int,
+      canti : 1);
   @override
   List<Object> get props =>
-      [description, nameproduct, discout, urlimage, price, canti];
+      [nameproduct, discout, urlimage, price, canti];
 }
