@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pruebatecnica/data/repositories/services/services.dart';
 import 'package:pruebatecnica/domain/entities/product.dart';
 import 'package:pruebatecnica/domain/entities/shopping.dart';
-import 'package:pruebatecnica/ui/Pages/Shopping/Shopping.dart';
 
 class Repository implements Services {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -34,16 +33,31 @@ class Repository implements Services {
 
   Future<ServiceResult<List<Product>>> setData({Product product}) async {
     try {
-      print('metodo set');
+      final resp = await _firestore
+          .collection('Shopping')
+          .where('Nameproduct', isEqualTo: product.nameproduct)
+          .where('Urlimage', isEqualTo: product.urlimage)
+          .where('Discout', isEqualTo: product.discout)
+          .where('Price', isEqualTo: product.price)
+          .get();
+
+      if (resp.docs.length != 0 || resp.docs != null) {
+        await _firestore
+            .collection('Shopping')
+            .doc(resp.docs[0].id)
+            .set({'Canti': resp.docs[0]['Canti'] + 1}, SetOptions(merge: true));
+      }
+
+      return ServiceResult(message: 'Agregado con exito', status: true);
+    } catch (e) {
       await _firestore.collection('Shopping').doc().set({
         'Nameproduct': product.nameproduct,
         'Discout': product.discout,
         'Urlimage': product.urlimage,
-        'Price': product.price
-      });
-      return ServiceResult(message: 'Agregado con exito', status: true);
-    } catch (e) {
-      return ServiceResult(message: 'Intente mas tarde', status: false);
+        'Price': product.price,
+        'Canti': product.canti
+      }, SetOptions(merge: true));
+      return ServiceResult(message: 'Agregado con exito', status: false);
     }
   }
 
@@ -65,6 +79,20 @@ class Repository implements Services {
       }
     } catch (e) {
       return ServiceResult(message: e.toString(), status: false);
+    }
+  }
+
+ Future<ServiceResult<List<Shopping>>> delete() async {
+    try {
+      final resp = await _firestore.collection('Shopping').get();
+      final docs = resp.docs;
+      for (var i = 0; i < resp.docs.length; i++) {
+        _firestore.collection('Shopping').doc(docs[i].id).delete();
+      }
+     return ServiceResult(message: 'Vacio', status: true);
+    } catch (e) {
+      print(e.toString());
+      return ServiceResult(message: 'Error', status: false);
     }
   }
 

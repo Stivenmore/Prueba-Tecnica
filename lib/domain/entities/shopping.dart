@@ -7,7 +7,7 @@ import 'package:equatable/equatable.dart';
   final int discout;
   final String urlimage;
   final int price;
-  int canti;
+   int canti;
 
   Shopping({
       this.nameproduct,
@@ -22,7 +22,7 @@ factory Shopping.fromsnapshot(Map<String, dynamic> snapshot) => Shopping(
       discout: snapshot['Discout'] as int,
       urlimage: snapshot['Urlimage'],
       price: snapshot['Price'] as int,
-      canti : 1);
+      canti : snapshot['Canti'] );
   @override
   List<Object> get props =>
       [nameproduct, discout, urlimage, price, canti];

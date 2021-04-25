@@ -9,9 +9,10 @@ class Product extends Equatable {
   final int price;
   final int quantity;
   final String id;
+  final int canti;
   bool isChecked;
 
-  Product({this.isChecked, 
+  Product({this.canti, this.isChecked, 
       this.id,
       this.quantity,
       this.description,
@@ -27,8 +28,7 @@ class Product extends Equatable {
       urlimage: snapshot['Urlimage'],
       price: snapshot['Price'] as int,
       id: snapshot['id'],
-      isChecked: false,
-      quantity: 0);
+      canti: 1 );
 
   @override
   List<Object> get props =>

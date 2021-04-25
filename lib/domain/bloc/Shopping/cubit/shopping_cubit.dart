@@ -38,4 +38,13 @@ class ShoppingCubit extends Cubit<ShoppingState> {
       emit(ShoppingError(result.message));
     }
   }
+
+  Future<void> deletedata() async {
+     ServiceResult<List<Shopping>> result = await _repository.delete();
+    if (result.status == true) {
+       emit(ShoppingSuccess(result.message));
+    } else {
+      emit(ShoppingError(result.message));
+    }
+  }
 }
